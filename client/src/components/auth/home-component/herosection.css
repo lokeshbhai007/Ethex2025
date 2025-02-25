@@ -1,0 +1,179 @@
+.hero-container {
+  margin-top: 0.6rem;
+  color: #faf5ff;
+}
+
+.hero-background {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #15002b, #060401, transparent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.hero-content {
+  max-width: 72rem;
+  text-align: center;
+  padding-top: 1.5rem;
+  padding-bottom: 8rem;
+}
+
+.version-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  border: 1px solid #fde047;
+  background-color: #fef9c3;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.version-text:hover {
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.version-indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #facc15;
+  border-radius: 50%;
+  border: 1px solid #d97706;
+}
+
+.version-info {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: #d97706;
+}
+
+.version-highlight {
+  color: #92400e;
+}
+
+.version-arrow {
+  color: #d97706;
+  transition: transform 0.2s ease-in-out;
+}
+
+.version-text:hover .version-arrow {
+  transform: translateX(4px);
+}
+
+.hero-features {
+  display: flex;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  justify-content: center;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4b5563;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: #374151;
+}
+
+.hero-buttons {
+  margin-top: 3.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.download-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #6366f1;
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.download-btn:hover {
+  background-color: #4f46e5;
+}
+
+.docs-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: black;
+  font-weight: 600;
+  border: 1px solid #9ca3af;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out;
+}
+
+.docs-btn:hover {
+  border-color: #374151;
+  background-color: #c3c3c3c6;
+}
+
+@media (min-width: 768px) {
+  .hero-features {
+    display: flex;
+  }
+
+  .hero-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap:2rem;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+    margin-top: -10px;
+  }
+}
+
+/* @keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero-subtitle {
+  animation: flash 1.5s infinite;
+} */
+
+
+.ethex_logo {
+  width: 60px;
+  height: 70px;
+}
+
+.welcome-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+.welcome-box img {
+  max-height: 140px;
+  min-height: 100px;
+  margin-top: 37px;
+}

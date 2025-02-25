@@ -1,0 +1,22 @@
+.logout-ui {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #165ef0;
+    color: white;
+    padding: 8px 12px;
+    font-size: 16px;
+    /* font-weight: ; */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .logout-ui:hover {
+    background-color: #c62f2f;
+  }
+  
+  .logout-ui svg {
+    font-size: 20px;
+  }
+  

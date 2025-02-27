@@ -1,77 +1,91 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./about.css";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { ShieldCheck, Scale, Rocket } from "lucide-react";
 
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-100px" }); // 🔥 Removed `once: true` to trigger on every scroll
+  const isInView = useInView(ref, { margin: "-100px", triggerOnce: true });
 
   return (
-    <div className="about-container">
-      <motion.h1
-        className="about-title"
-        initial={{ opacity: 0, y: -20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }} // 🔄 Reanimates on scroll
-        transition={{ duration: 1.2, ease: "easeInOut" }}
-      >
-        About Us
-      </motion.h1>
+    <>
+      <hr className="hr-tag" />
+      <div ref={ref} className="about-container">
+        {/* ✅ Heading with smooth fade-in */}
+        <motion.h1
+          className="about-title"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        >
+          About Us
+        </motion.h1>
 
-      <motion.p
-        className="about-description"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }} // 🔄 Reanimates on scroll
-        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.3 }}
-      >
-        Ethex is a revolutionary escrow platform powered by blockchain technology, ensuring secure and 
-        transparent transactions like never before. Acting as a trusted intermediary, Ethex facilitates 
-        seamless peer-to-peer exchanges while eliminating fraud, enhancing trust, and providing an 
-        immutable record of transactions.
-      </motion.p>
+        {/* ✅ About Section with Icons */}
+        <div className="about-things-write">
+          {[
+            {
+              icon: <ShieldCheck size={40} color="white" className="icon" />,
+              text: "Ethex is a revolutionary escrow platform powered by blockchain technology, ensuring secure and transparent transactions like never before. Acting as a trusted intermediary, Ethex facilitates seamless peer-to-peer exchanges while eliminating fraud, enhancing trust, and providing an immutable record of transactions.",
+            },
+            {
+              icon: <Scale size={40} color="white" className="icon" />,
+              text: "At Ethex, we believe in redefining the way transactions are conducted by removing the need for traditional third-party intermediaries. Through the implementation of smart contracts, funds are securely held in escrow and are only released when all predefined conditions and agreements between the involved parties are fully met.",
+            },
+            {
+              icon: <Rocket size={40} color="white" className="icon" />,
+              text: "Our blockchain-based approach revolutionizes the traditional financial ecosystem by enabling fast, secure, and cost-effective cross-border transactions without relying on centralized authorities. Whether you are engaging in business deals, purchasing digital assets, or handling high-value transactions, Ethex guarantees that your funds remain protected until every obligation is fulfilled.",
+            },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              className="about-item"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut", delay: index * 0.2 }}
+            >
+              {item.icon}
+              <h5 className="about-description">{item.text}</h5>
+            </motion.div>
+          ))}
+        </div>
 
-      <motion.p
-        className="about-description"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }} // 🔄 Reanimates on scroll
-        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-      >
-        With the power of decentralized smart contracts, Ethex guarantees that funds are only released 
-        when all parties meet predefined conditions. Our blockchain-based approach eliminates the need 
-        for traditional intermediaries, reducing costs and increasing transaction speed. Whether you are 
-        conducting business deals, purchasing digital assets, or making high-value transactions, Ethex 
-        ensures that your funds remain protected until every agreement is fulfilled.
-      </motion.p>
+        {/* ✅ Key Features Section */}
+        <motion.h2
+          className="features-title"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut", delay: 0.2 }}
+        >
+          Key Features
+        </motion.h2>
 
-      <motion.h2
-        className="features-title"
-        initial={{ opacity: 0, y: -10 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }} // 🔄 Reanimates on scroll
-        transition={{ duration: 1, ease: "easeInOut", delay: 0.7 }}
-      >
-        Key Features
-      </motion.h2>
-
-      {/* Features Grid with Scroll Animation */}
-      <div ref={ref} className="features-grid">
-        {[
-          { text: "Secure & Transparent: Blockchain immutability ensures tamper-proof transactions." },
-          { text: "Decentralized Escrow: Smart contracts automate trust without third-party intervention." },
-          { text: "Global Reach: Seamless cross-border transactions with no centralized authority." },
-        ].map((feature, index) => (
-          <motion.div
-            key={index}
-            className="feature-card"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }} // 🔄 Reanimates on scroll
-            transition={{ duration: 1, ease: "easeOut", delay: index * 0.3 }}
-            whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }} // Hover effect
-          >
-            <p>➢ {feature.text}</p>
-          </motion.div>
-        ))}
+        {/* ✅ Features Grid with animations */}
+        <div className="features-grid">
+          {[
+            "Secure & Transparent: Blockchain immutability ensures tamper-proof transactions.",
+            "Decentralized Escrow: Smart contracts automate trust without third-party intervention.",
+            "Global Reach: Seamless cross-border transactions with no centralized authority.",
+          ].map((feature, index) => (
+            <motion.div
+              key={index}
+              className="feature-card"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut", delay: index * 0.3 }}
+              whileHover={{
+                scale: 1.07,
+                rotate: 1,
+                boxShadow: "0px 15px 30px rgba(0,0,0,0.3)",
+                transition: { duration: 0.3 },
+              }}
+            >
+              <p>➢ {feature}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

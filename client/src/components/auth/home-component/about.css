@@ -1,63 +1,171 @@
 .about-container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 3rem auto;
     padding: 1.5rem;
     text-align: left;
+    color: aliceblue;
+    opacity: 1;
 }
 
+/* ✅ Title with smooth fade-in */
 .about-title {
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
     margin-bottom: 1rem;
+    opacity: 0; 
+    color: aliceblue;
+    animation: fadeIn 1s ease-in-out forwards; 
 }
 
-.about-description {
-    font-size: 1.1rem;
-    color: #374151;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    opacity: 0; /* 👈 Start with opacity 0 for smooth animation */
-    transition: opacity 0.5s ease-in-out;
-}
-
+/* ✅ Features Title */
 .features-title {
     font-size: 2rem;
     font-weight: bold;
-    margin-top: 2rem;
+    margin-top: 4rem;
     text-align: center;
-    opacity: 0; /* 👈 Add fade-in animation */
-    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out 0.3s forwards; 
 }
 
+/* ✅ Responsive Grid */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 🔄 Responsive Grid */
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
 
+/* ✅ Feature cards */
 .feature-card {
     background: white;
     padding: 1.2rem;
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.5s ease-in-out;
-    opacity: 0; /* 👈 Start hidden for animation */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.7s ease-in-out;
+    opacity: 0;
 }
 
 .feature-card:hover {
     transform: scale(1.05);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.25);
 }
 
+/* ✅ Feature text */
 .feature-card p {
     font-size: 1.1rem;
     color: #1f2937;
     font-weight: 500;
 }
 
-/* 🔥 Make animations work smoothly when in view */
-.in-view {
-    opacity: 1 !important; /* Ensures smooth appearance when scrolled into view */
+/* ✅ Fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ Features Title Margin Fix */
+.div-features-title {
+    margin-top: 20px;
+}
+
+/* ✅ Horizontal Rule Style */
+.hr-tag {
+    opacity: 30%;
+}
+
+/* ✅ About Things Section */
+.about-things-write {
+    margin-top: 30px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-wrap: wrap; /* ✅ Allows wrapping on small screens */
+    border: solid 1px rgb(218, 213, 213);
+    max-width: 100%;
+    height: auto; /* ✅ Adjust height dynamically */
+    padding: 20px;
+    justify-content: center; /* ✅ Centers items */
+}
+
+/* ✅ Individual Description Boxes */
+.about-things-write .about-description {
+    border: solid 1px rgb(218, 213, 213);
+    padding: 20px;
+    height: auto;
+    flex: 1 1 300px; /* ✅ Flexible width */
+}
+
+/* ✅ About Description Text */
+.about-things-write h5 {
+    color: aliceblue;
+    font-size: clamp(0.9rem, 1.2vw, 1.4rem); /* ✅ More responsive */
+    line-height: 1.8;
+    padding: 25px;
+    margin-bottom: 4rem;
+    opacity: 1;
+}
+
+/* ✅ About Section Layout */
+.about-things-write {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* ✅ About Item (Icon + Text) */
+.about-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.about-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Icon Styling */
+.icon {
+    flex-shrink: 0;
+}
+
+/* ✅ About Description */
+.about-description {
+    font-size: clamp(1rem, 1.2vw, 1.4rem);
+    color: aliceblue;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ✅ Mobile Adjustments */
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 2rem;
+    }
+    
+    .about-description {
+        font-size: 1.2rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr; /* ✅ Single column for small screens */
+    }
+
+    .about-things-write {
+        flex-direction: column; /* ✅ Stack items vertically */
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .about-things-write .about-description {
+        width: 100%;
+    }
 }

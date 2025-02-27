@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import ethex from "../../../assets/ethex.png";
+import "./send.css";
+
 const contractAddress = "0xffBC3a5cA2876642d9B86c2803aA0BeB30516FCc";
 const contractABI = [
   {
@@ -105,7 +108,7 @@ function App() {
         method: "eth_requestAccounts",
       });
       setAccount(accounts[0]);
-      setMessage(Connected: ${accounts[0]});
+      setMessage(`Connected: ${accounts[0]}`);
     } catch (err) {
       console.error(err);
       setMessage("Error connecting wallet");
@@ -131,7 +134,7 @@ function App() {
       const tx = await contract.deposit(receiver, {
         value: ethers.parseEther(depositAmount),
       });
-      setMessage(Deposit tx sent: ${tx.hash});
+      setMessage(`Deposit tx sent: ${tx.hash}`);
       await tx.wait();
       setMessage("Deposit successful!");
     } catch (err) {
@@ -144,7 +147,7 @@ function App() {
     try {
       const contract = await getContract();
       const tx = await contract.acknowledgeReceipt();
-      setMessage(Acknowledgment tx sent: ${tx.hash});
+      setMessage(`Acknowledgment tx sent: ${tx.hash}`);
       await tx.wait();
       setMessage("Acknowledgment successful!");
     } catch (err) {
@@ -157,7 +160,7 @@ function App() {
     try {
       const contract = await getContract();
       const tx = await contract.releaseFund();
-      setMessage(Release tx sent: ${tx.hash});
+      setMessage(`Release tx sent: ${tx.hash}`);
       await tx.wait();
       setMessage("Fund released successfully!");
     } catch (err) {
@@ -167,88 +170,73 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "600px",
-        margin: "auto",
-        padding: "20px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <h1>Escrow DApp</h1>
-      {account ? (
-        <p>
-          <strong>Connected Account:</strong> {account}
-        </p>
-      ) : (
-        <button onClick={connectWallet}>Connect Wallet</button>
-      )}
+    <>
+      <div className="body-send">
+        <div className="container-send">
+          <img
+            className="h1-send logo-text-h1"
+            src={ethex}
+            alt="logo"
+          />
+          {account ? (
+            <p>
+              <strong>Connected Account:</strong> {account}
+            </p>
+          ) : (
+            <button className="wallet-button-send" onClick={connectWallet}>
+              Connect Wallet
+            </button>
+          )}
 
-      <hr />
+          <div className="deopsite-send">
+            <h2 className="h2-send">Deposit Funds</h2>
+            <label className="label-font">
+              Receiver Address:
+              <input
+                className="input-send"
+                type="text"
+                value={receiver}
+                onChange={(e) => setReceiver(e.target.value)}
+                placeholder="Receiver address"
+              />
+            </label>
 
-      <div>
-        <h2>Deposit Funds</h2>
-        <div>
-          <label>
-            Receiver Address:
-            <input
-              type="text"
-              value={receiver}
-              onChange={(e) => setReceiver(e.target.value)}
-              placeholder="Receiver address"
-              style={{
-                margin: "10px 0",
-                padding: "5px",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            />
-          </label>
+            <label className="label-font">
+              Amount (ETH):
+              <input
+                className="input-send"
+                type="text"
+                value={depositAmount}
+                onChange={(e) => setDepositAmount(e.target.value)}
+                placeholder="Amount in ETH"
+              />
+            </label>
+
+            <button className="button-send" onClick={depositFunds}>
+              Deposit
+            </button>
+          </div>
+
+          <div className="buttom-send">
+            <h2 className="h2-send-button">Acknowledge Receipt</h2>
+            <button className="ack-btn" onClick={acknowledgeReceipt}>Acknowledge</button>
+          </div>
+
+          <div  className="buttom-send">
+            <h2 className="h2-send-button">Release Fund</h2>
+            <button className="ack-btn" onClick={releaseFund}>Release</button>
+          </div>
+
+          {message && (
+            <div className="status-send">
+              <p className="p-send">
+                <strong>Status:</strong> {message}
+              </p>
+            </div>
+          )}
         </div>
-        <div>
-          <label>
-            Amount (ETH):
-            <input
-              type="text"
-              value={depositAmount}
-              onChange={(e) => setDepositAmount(e.target.value)}
-              placeholder="Amount in ETH"
-              style={{
-                margin: "10px 0",
-                padding: "5px",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            />
-          </label>
-        </div>
-        <button onClick={depositFunds}>Deposit</button>
       </div>
-
-      <hr />
-
-      <div>
-        <h2>Acknowledge Receipt</h2>
-        <button onClick={acknowledgeReceipt}>Acknowledge</button>
-      </div>
-
-      <hr />
-
-      <div>
-        <h2>Release Fund</h2>
-        <button onClick={releaseFund}>Release</button>
-      </div>
-
-      <hr />
-
-      {message && (
-        <div>
-          <p>
-            <strong>Status:</strong> {message}
-          </p>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 

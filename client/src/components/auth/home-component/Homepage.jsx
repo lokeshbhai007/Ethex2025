@@ -5,6 +5,7 @@ import ethex from "../../../assets/ethex.png";
 import BackToLogin from "../../ui/BackToLogin";
 import "./herosection.css";
 import About from "./About";
+import { useNavigate } from "react-router-dom";
 // import "./about.css";
 import { motion, useInView } from "framer-motion";
 import Footer from "./Footer";
@@ -35,6 +36,11 @@ const NavBar = () => {
 
   const text =
     "Build trust in transactions with Ethex — a blockchain-based escrow platform for secure, transparent deals.";
+
+const navigate = useNavigate();
+const handelregister = () => {
+  navigate("/register");
+};
 
   return (
     <>
@@ -84,7 +90,7 @@ const NavBar = () => {
             </motion.p>
 
             <div id="hero-button" className="hero-buttons">
-              <button className="download-btn">Get started</button>
+              <button onClick={handelregister} className="download-btn">Get started</button>
               <button className="docs-btn">Our Mission</button>
             </div>
           </div>

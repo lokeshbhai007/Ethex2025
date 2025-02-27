@@ -1,0 +1,169 @@
+.body-send {
+  background: linear-gradient(to bottom right, #1a002b, #0a0014);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Main Container */
+.container-send {
+  max-width: 500px;
+  background: rgba(48, 26, 26, 0.1);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+
+
+/* Headings */
+.h1-send {
+  font-size: 28px;
+  /* margin-bottom: 5px; */
+  color: #f8f9fa;
+  font-weight: 600;
+}
+
+.logo-text-h1 {
+  font-family: sans-serif;
+  display: flex;
+  margin-left: 100px;
+  font-size: 8px;
+  margin-top: 0px;
+  font-weight: bold;
+  object-fit: cover;
+  max-height: 130px;
+  min-height: 100px;
+}
+
+.h2-send {
+  font-size: 27px;
+  color: #ffffff;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.label-font{
+  color: #bcbcbc;
+  font-weight: 500;
+}
+
+/* Input Fields */
+.input-send {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-send::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.input-send:focus {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.03);
+}
+
+/* Buttons */
+.button-send {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: #165ef0;
+  color: white;
+  box-shadow: 0px 4px 8px rgba(41, 1, 69, 0.644);
+}
+
+.button-send:hover {
+  background: #014ce2;
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Wallet Connection Button */
+.wallet-button-send {
+  background: #4fc3f7;
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 30px;
+  margin-top: -70px;
+}
+
+.wallet-button-send:hover {
+  background: #29b6f6;
+}
+
+/* Deposit Section */
+.deopsite-send {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(45, 9, 85, 0.507);
+  box-shadow: 0px 4px 10px rgba(19, 0, 51, 0.768);
+}
+
+/* Status Message */
+.status-send {
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffb6b6;
+}
+
+.p-send {
+  margin: 0;
+}
+
+.buttom-send{
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+}
+
+.h2-send-button{
+  opacity: 70%;
+  
+  margin: 10px 1px;
+}
+
+.ack-btn{
+  padding: 0px 10px;
+  width: 120px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(19, 0, 51, 0.768);
+  outline: none;
+  background: #64b2fff2;
+} 
+
+
+.ack-btn:hover{
+  background: #64b1ffb1;
+  transform: translateY(-1px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+}

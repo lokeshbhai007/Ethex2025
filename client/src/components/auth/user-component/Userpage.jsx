@@ -5,6 +5,7 @@ import ethex from "../../../assets/ethex.png";
 import Logout from "../../ui/Logout";
 import Footer from "../home-component/Footer";
 import apis from "../../../utils/apis";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [user, setUser] = useState(""); // 🛠 Added state for user name
@@ -13,7 +14,7 @@ const NavBar = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(apis().getUserDetails, { 
+        const response = await fetch("backend upi", { //have to give the backend upii
           credentials: "include" // Ensure cookies (if used) are sent
         });
         const data = await response.json();
@@ -25,6 +26,11 @@ const NavBar = () => {
 
     fetchUser();
   }, []);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/user/send");
+  };
 
   return (
     <>
@@ -55,7 +61,7 @@ const NavBar = () => {
             </div>
 
             <div id="hero-button" className="hero-buttons">
-              <button className="download-btn">Send Money</button>
+              <button onClick={handleLogout} className="download-btn">Send Money</button>
               <button className="docs-btn">Dashboard</button>
             </div>
           </div>

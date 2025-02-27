@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import "./escrow.css"; // Import the new CSS file
+import "./escrow.css"; // Import the new CSS fil/e
 
-const contractAddress = "0xd39008757AF0FCF6F00baF2BF253453Db31504D4";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const contractABI = [
   {
     "inputs": [],

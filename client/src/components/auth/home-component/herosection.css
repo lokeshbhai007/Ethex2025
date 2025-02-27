@@ -1,12 +1,12 @@
 .hero-container-box {
   margin-top: 0.6rem;
-  color: #faf5ff;
+  color: #ffffff;
 }
 
 .hero-background-box {
   min-height: 100vh;
   background: linear-gradient(to bottom right, #15002b, #060401, transparent);
-  width: 100vw;
+  width: 95vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,4 +177,8 @@
   max-height: 140px;
   min-height: 100px;
   margin-top: 37px;
+}
+
+.about-section {
+  scroll-margin-top: 100px; /* Adjust height according to navbar size */
 }

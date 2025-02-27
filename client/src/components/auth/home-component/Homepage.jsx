@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./NavBar.css";
 import logo from "../../../assets/logo.png";
 import ethex from "../../../assets/ethex.png";
@@ -6,16 +6,14 @@ import BackToLogin from "../../ui/BackToLogin";
 import "./herosection.css";
 import About from "./About";
 import { useNavigate } from "react-router-dom";
-// import "./about.css";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import Footer from "./Footer";
-// import { useRef } from "react";
 
 const sentenceVariants = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 }, // Controls delay between words
+    transition: { staggerChildren: 0.05 },
   },
 };
 
@@ -24,23 +22,24 @@ const letterVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
-// const About = () => {
-//   const ref = useRef(null);
-//   const isInView = useInView(ref, { once: true, margin: "-100px" }); // Animation triggers once when 100px before visible
-// };
-
 const NavBar = () => {
-
-  // const ref = useRef(null);
-  // const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   const text =
     "Build trust in transactions with Ethex — a blockchain-based escrow platform for secure, transparent deals.";
 
-const navigate = useNavigate();
-const handelregister = () => {
-  navigate("/register");
-};
+  const navigate = useNavigate();
+
+  const aboutRef = useRef(null);
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   return (
     <>
@@ -52,15 +51,10 @@ const handelregister = () => {
           </a>
         </div>
 
-        {/* <div id="nav-items">
-          <a href="#">Home</a>
-          <a href="#">Docs</a>
-          <a href="#">About</a>
-          <a href="#">Blogs</a>
-        </div> */}
-
         <div className="nav-button back_toLogin_ui">
-         <div> <BackToLogin /></div>
+          <div>
+            <BackToLogin />
+          </div>
         </div>
       </nav>
 
@@ -90,16 +84,22 @@ const handelregister = () => {
             </motion.p>
 
             <div id="hero-button" className="hero-buttons">
-              <button onClick={handelregister} className="download-btn">Get started</button>
-              <button className="docs-btn">About Us</button>
+              <button onClick={handleRegister} className="download-btn">
+                Get started
+              </button>
+              <button onClick={scrollToAbout} className="docs-btn">
+                About Us
+              </button>
             </div>
           </div>
         </div>
       </main>
 
-      <About/>
-      <div className="hii-div">hii</div>
-      <Footer/>
+      <div ref={aboutRef}>
+        <About />
+      </div>
+
+      <Footer />
     </>
   );
 };

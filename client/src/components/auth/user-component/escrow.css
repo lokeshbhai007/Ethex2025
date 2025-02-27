@@ -1,7 +1,4 @@
-/* General Container */
-body{
-  background: linear-gradient(to bottom right, #15002b, #060401);
-}
+
 .container-escrow {
     max-width: 400px; /* Smaller container */
     margin: 40px auto;
@@ -50,9 +47,9 @@ body{
     width: 85%;
     padding: 10px;
     margin: 10px auto;
-    border: none;
+    border: 1px;
     border-radius: 6px;
-    background: #1a1a1a; /* Darker input background */
+    background: #3e2651; /* Darker input background */
     color: #e0e0e0;
     font-size: 14px;
     transition: border 0.2s ease-in-out;

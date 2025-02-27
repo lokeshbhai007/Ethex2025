@@ -49,7 +49,7 @@ const UserPage = () => {
             <div id="hero-button" className="hero-buttons">
             <button onClick={handleLogout} className="download-btn">Send Money</button>
 
-              <button className="docs-btn">Dashboard</button>
+              
             </div>
           </div>
         </div>

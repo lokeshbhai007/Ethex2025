@@ -4,42 +4,32 @@ const joi = require("joi");
 
 const register = async (req, res, next) => {
   const { error: validationError } = validateUser(req.body);
-
   const { name, email, password } = req.body;
 
   try {
-    //if the valudation not pass then this will happen
     if (validationError) {
-      const error = new Error(validationError.details[0].message);
-      error.statusCode = 400;
-      throw error;
+      return res.status(400).json({ message: validationError.details[0].message });
     }
 
-    const formatedName = name.toLowerCase();
-    const formatedEmail = email.toLowerCase();
+    const formattedName = name;
+    const formattedEmail = email.toLowerCase();
 
-    const findedUser = await User.findOne({ email: formatedEmail });
-    if (findedUser) {
-      const error = new Error("this email is already exist"); //checking  email is already exist or not
-      error.statusCode = 400;
-      throw error;
+    const existingUser = await User.findOne({ email: formattedEmail });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); //hashing the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      //if user not exist then create one new
-      name: formatedName,
-      email: formatedEmail,
+      name: formattedName,
+      email: formattedEmail,
       password: hashedPassword,
     });
 
-    await newUser.save(); //saving the new created user
+    await newUser.save();
 
-    res
-      .status(200)
-      .json({ message: "user registerd successfully", status: true });
-
+    res.status(201).json({ message: "User registered successfully", status: true });
   } catch (error) {
     next(error);
   }
@@ -47,8 +37,7 @@ const register = async (req, res, next) => {
 
 module.exports = register;
 
-//validating the user details like name minimum 2 character, exmail should be a string, password should be 6-12 char
-function validateUser(data) {  
+function validateUser(data) {
   const userSchema = joi.object({
     name: joi.string().min(2).required(),
     email: joi.string().email().required(),

@@ -4,7 +4,7 @@
 }
 
 .hero-background {
-  min-height: 100vh;
+  min-height: 90vh;
   background: linear-gradient(to bottom right, #15002b, #060401, transparent);
   display: flex;
   justify-content: center;

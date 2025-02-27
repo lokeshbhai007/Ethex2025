@@ -52,12 +52,12 @@ const handelregister = () => {
           </a>
         </div>
 
-        <div id="nav-items">
+        {/* <div id="nav-items">
           <a href="#">Home</a>
           <a href="#">Docs</a>
           <a href="#">About</a>
           <a href="#">Blogs</a>
-        </div>
+        </div> */}
 
         <div className="nav-button back_toLogin_ui">
          <div> <BackToLogin /></div>
@@ -91,7 +91,7 @@ const handelregister = () => {
 
             <div id="hero-button" className="hero-buttons">
               <button onClick={handelregister} className="download-btn">Get started</button>
-              <button className="docs-btn">Our Mission</button>
+              <button className="docs-btn">About Us</button>
             </div>
           </div>
         </div>

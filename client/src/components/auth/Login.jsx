@@ -1,35 +1,26 @@
 import React, { useState } from "react";
-import Input from "../ui/input";
-import Button from "../ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosLogIn } from "react-icons/io";
 import toast from "react-hot-toast";
-import apis from "../../utils/apis";
+import Input from "../ui/input";
+import Button from "../ui/Button";
 import LoadingButton from "../ui/LoadingButton";
-
-import { useNavigate } from "react-router-dom";
+import apis from "../../utils/apis";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // ✅ Ensure useNavigate is used correctly
 
-  const navigate = useNavigate();
+  const emailChange = (e) => setEmail(e.target.value);
+  const passwordChange = (e) => setPassword(e.target.value);
 
-  const emailChnage = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const passwordChnage = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const submitHandler = async (event) => {
-    event.preventDefault();
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      setLoading(true);
       const response = await fetch(apis().loginUser, {
         method: "POST",
         body: JSON.stringify({ email, password }),
@@ -38,48 +29,50 @@ const Login = () => {
 
       const result = await response.json();
       setLoading(false);
-      if (!response.ok) {
-        throw new Error(result?.message);
-      }
-      if (result?.status) {
-        toast.success(result?.message);
-        localStorage.setItem("accessToken", result?.token);
-        console.log(result);
-        navigate("/user");
-      }
 
+      if (!response.ok) throw new Error(result?.message || "Login failed");
+
+      if (result?.status) {
+        toast.success("Login successful!");
+        
+        // ✅ Store user info and token
+        localStorage.setItem("accessToken", result?.token);
+        localStorage.setItem("user", JSON.stringify(result?.user));
+
+        // ✅ Ensure redirection to UserPage
+        navigate("/user", { replace: true });
+      }
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
-
-    // console.log(email, password);
   };
 
   return (
     <div className="auth_main border-animation">
       <form onSubmit={submitHandler}>
-        <div className="auth_container ">
+        <div className="auth_container">
           <div className="auth_header">
             <IoIosLogIn />
-            <p className="auth_heading_RL">welcome back</p>
-            <p className="auth_title_RL">login to your account!</p>
+            <p className="auth_heading_RL">Welcome back</p>
+            <p className="auth_title_RL">Login to your account!</p>
           </div>
           <div className="auth_item">
             <label>Email *</label>
             <Input
-              onChange={emailChnage}
+              onChange={emailChange}
               type="email"
               required
-              placeholder="enter your email"
+              placeholder="Enter your email"
             />
           </div>
           <div className="auth_item">
             <label>Password *</label>
             <Input
-              onChange={passwordChnage}
+              onChange={passwordChange}
               type="password"
               required
-              placeholder="enter your password"
+              placeholder="Enter your password"
             />
           </div>
           <div className="auth_action">
@@ -89,7 +82,7 @@ const Login = () => {
           </div>
           <div className="auth_options login_auth_options">
             <Link to="/register">Create new account?</Link>
-            <Link to="/forget/password">Forget password</Link>
+            <Link to="/forget/password">Forgot password?</Link>
           </div>
         </div>
       </form>

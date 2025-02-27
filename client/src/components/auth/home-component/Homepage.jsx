@@ -64,8 +64,8 @@ const handelregister = () => {
         </div>
       </nav>
 
-      <main className="hero-container">
-        <div className="hero-background">
+      <main className="hero-container-box">
+        <div className="hero-background-box">
           <div className="hero-content">
             <div className="welcome-box">
               <h1 className="hero-title">Welcome to </h1>

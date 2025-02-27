@@ -10,6 +10,8 @@ const UserPage = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (!userData) {
@@ -18,6 +20,10 @@ const UserPage = () => {
       setUser(userData);
     }
   }, [navigate]);
+
+  const handleLogout = () => {
+    navigate("/user/send");
+  };
 
   return (
     <>
@@ -37,13 +43,12 @@ const UserPage = () => {
         <div className="hero-background">
           <div className="hero-content">
             <div className="welcome-box">
-              <h1 className="hero-title">
-                Welcome {user?.name || "Guest"}👋
-              </h1>
+              <h1 className="hero-title">Welcome {user?.name || "Guest"}👋</h1>
             </div>
 
             <div id="hero-button" className="hero-buttons">
-              <button className="download-btn">Send Money</button>
+            <button onClick={handleLogout} className="download-btn">Send Money</button>
+
               <button className="docs-btn">Dashboard</button>
             </div>
           </div>

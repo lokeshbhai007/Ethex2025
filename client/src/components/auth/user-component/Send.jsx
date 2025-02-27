@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import ethex from "../../../assets/ethex.png";
-import "./send.css";
+import "./escrow.css"; // Import the new CSS file
 
-const contractAddress = "0xffBC3a5cA2876642d9B86c2803aA0BeB30516FCc";
+const contractAddress = "0xd39008757AF0FCF6F00baF2BF253453Db31504D4";
 const contractABI = [
   {
     "inputs": [],
@@ -91,13 +90,12 @@ const contractABI = [
   }
 ];
 
-function App() {
+function Send() {
   const [account, setAccount] = useState("");
   const [receiver, setReceiver] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
   const [message, setMessage] = useState("");
 
-  
   const connectWallet = async () => {
     if (!window.ethereum) {
       setMessage("Please install MetaMask");
@@ -115,7 +113,6 @@ function App() {
     }
   };
 
-  
   const getContract = async () => {
     if (!window.ethereum) throw new Error("Please install MetaMask");
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -123,10 +120,9 @@ function App() {
     return new ethers.Contract(contractAddress, contractABI, signer);
   };
 
-  
   const depositFunds = async () => {
     if (!receiver || !depositAmount) {
-      setMessage("Enter receiver address and deposit amount");
+      setMessage("⚠️ Enter receiver address and amount");
       return;
     }
     try {
@@ -134,12 +130,16 @@ function App() {
       const tx = await contract.deposit(receiver, {
         value: ethers.parseEther(depositAmount),
       });
-      setMessage(`Deposit tx sent: ${tx.hash}`);
+      setMessage("⏳ Sending deposit...");
       await tx.wait();
-      setMessage("Deposit successful!");
+      setMessage("✅ Deposit successful!");
     } catch (err) {
       console.error(err);
-      setMessage("Deposit failed: " + err.message);
+      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
+        setMessage("❌ Deposit failed: User rejected action");
+      } else {
+        setMessage("❌ Deposit failed: " + err.message);
+      }
     }
   };
 
@@ -147,12 +147,16 @@ function App() {
     try {
       const contract = await getContract();
       const tx = await contract.acknowledgeReceipt();
-      setMessage(`Acknowledgment tx sent: ${tx.hash}`);
+      setMessage("⏳ Sending acknowledgment...");
       await tx.wait();
-      setMessage("Acknowledgment successful!");
+      setMessage("✅ Acknowledgment successful!");
     } catch (err) {
       console.error(err);
-      setMessage("Acknowledgment failed: " + err.message);
+      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
+        setMessage("❌ Acknowledgment failed: User rejected action");
+      } else {
+        setMessage("❌ Acknowledgment failed: " + err.message);
+      }
     }
   };
 
@@ -160,84 +164,48 @@ function App() {
     try {
       const contract = await getContract();
       const tx = await contract.releaseFund();
-      setMessage(`Release tx sent: ${tx.hash}`);
+      setMessage("⏳ Releasing funds...");
       await tx.wait();
-      setMessage("Fund released successfully!");
+      setMessage("✅ Funds released successfully!");
     } catch (err) {
       console.error(err);
-      setMessage("Release failed: " + err.message);
+      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
+        setMessage("❌ Release failed: User rejected action");
+      } else {
+        setMessage("❌ Release failed: " + err.message);
+      }
     }
   };
 
   return (
-    <>
-      <div className="body-send">
-        <div className="container-send">
-          <img
-            className="h1-send logo-text-h1"
-            src={ethex}
-            alt="logo"
-          />
-          {account ? (
-            <p>
-              <strong>Connected Account:</strong> {account}
-            </p>
-          ) : (
-            <button className="wallet-button-send" onClick={connectWallet}>
-              Connect Wallet
-            </button>
-          )}
+    <div className="container-escrow">
+      <h1 className="title-escrow">Escrow DApp</h1>
+      {account ? (
+        <p className="account-escrow"><strong>Connected Account:</strong> {account}</p>
+      ) : (
+        <button className="button-escrow" onClick={connectWallet}>Connect Wallet</button>
+      )}
 
-          <div className="deopsite-send">
-            <h2 className="h2-send">Deposit Funds</h2>
-            <label className="label-font">
-              Receiver Address:
-              <input
-                className="input-send"
-                type="text"
-                value={receiver}
-                onChange={(e) => setReceiver(e.target.value)}
-                placeholder="Receiver address"
-              />
-            </label>
-
-            <label className="label-font">
-              Amount (ETH):
-              <input
-                className="input-send"
-                type="text"
-                value={depositAmount}
-                onChange={(e) => setDepositAmount(e.target.value)}
-                placeholder="Amount in ETH"
-              />
-            </label>
-
-            <button className="button-send" onClick={depositFunds}>
-              Deposit
-            </button>
-          </div>
-
-          <div className="buttom-send">
-            <h2 className="h2-send-button">Acknowledge Receipt</h2>
-            <button className="ack-btn" onClick={acknowledgeReceipt}>Acknowledge</button>
-          </div>
-
-          <div  className="buttom-send">
-            <h2 className="h2-send-button">Release Fund</h2>
-            <button className="ack-btn" onClick={releaseFund}>Release</button>
-          </div>
-
-          {message && (
-            <div className="status-send">
-              <p className="p-send">
-                <strong>Status:</strong> {message}
-              </p>
-            </div>
-          )}
-        </div>
+      <div className="section-escrow">
+        <h2 className="subtitle-escrow">Deposit Funds</h2>
+        <input className="input-escrow" type="text" value={receiver} onChange={(e) => setReceiver(e.target.value)} placeholder="Receiver address" />
+        <input className="input-escrow" type="text" value={depositAmount} onChange={(e) => setDepositAmount(e.target.value)} placeholder="Amount in ETH" />
+        <button className="button-escrow" onClick={depositFunds}>Deposit</button>
       </div>
-    </>
+
+      <div className="section-escrow">
+        <h2 className="subtitle-escrow">Acknowledge Receipt</h2>
+        <button className="button-escrow" onClick={acknowledgeReceipt}>Acknowledge</button>
+      </div>
+
+      <div className="section-escrow">
+        <h2 className="subtitle-escrow">Release Fund</h2>
+        <button className="button-escrow" onClick={releaseFund}>Release</button>
+      </div>
+
+      {message && <p className="status-escrow"><strong>Status:</strong> {message}</p>}
+    </div>
   );
 }
 
-export default App;
+export default Send;

@@ -17,7 +17,7 @@ app.use((error, req, res, next) => {
   res.status(statusCode).json({ message });
 });
 
-// ✅ Connect MongoDB (without deprecated options)
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected sucessfully"))
   .catch(err => console.log("DB Connection Error:", err));

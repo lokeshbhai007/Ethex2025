@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 contract Escrow {
-    address public sender;
-    address public receiver;
-    bool public senderAck;
+    address public sender; // Sender Address
+    address public receiver; // Receiver Address
+    bool public senderAck; 
     bool public receiverAck;
 
     constructor() {
@@ -20,6 +20,11 @@ contract Escrow {
         receiver = _receiver;
     }
 
+
+    function getReceiver() public view returns (address) {
+        return receiver; 
+    }
+
     function acknowledgeReceipt() external {
         require(msg.sender == receiver, "Only receiver can acknowledge");
         receiverAck = true;
@@ -31,7 +36,7 @@ contract Escrow {
 
         payable(receiver).transfer(address(this).balance);
 
-        // Reset contract
+
         sender = address(0);
         receiver = address(0);
         senderAck = false;

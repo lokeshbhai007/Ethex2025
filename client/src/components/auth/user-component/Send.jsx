@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import "./escrow.css"; // Import the new CSS fil/e
+import "./escrow.css";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 const contractABI = [
   {
     "inputs": [],
@@ -17,13 +17,7 @@ const contractABI = [
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "_receiver", "type": "address" }],
     "name": "deposit",
     "outputs": [],
     "stateMutability": "payable",
@@ -38,53 +32,8 @@ const contractABI = [
   },
   {
     "inputs": [],
-    "name": "receiver",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "sender",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "senderAck",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "receiverAck",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "name": "getReceiver",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   }
@@ -95,6 +44,7 @@ function Send() {
   const [receiver, setReceiver] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -106,10 +56,10 @@ function Send() {
         method: "eth_requestAccounts",
       });
       setAccount(accounts[0]);
-      setMessage(`Connected: ${accounts[0]}`);
+      setMessage(`✅ Connected: ${accounts[0]}`);
     } catch (err) {
-      console.error(err);
       setMessage("Error connecting wallet");
+      console.error(err);
     }
   };
 
@@ -122,88 +72,110 @@ function Send() {
 
   const depositFunds = async () => {
     if (!receiver || !depositAmount) {
-      setMessage("⚠️ Enter receiver address and amount");
+      setMessage("Enter Receiver Address and Amount");
       return;
     }
+    setLoading(true);
     try {
       const contract = await getContract();
       const tx = await contract.deposit(receiver, {
         value: ethers.parseEther(depositAmount),
       });
-      setMessage("⏳ Sending deposit...");
+      setMessage("Sending deposit...");
       await tx.wait();
-      setMessage("✅ Deposit successful!");
+      setMessage("Deposit Successful!");
     } catch (err) {
       console.error(err);
-      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
-        setMessage("❌ Deposit failed: User rejected action");
-      } else {
-        setMessage("❌ Deposit failed: " + err.message);
-      }
+      setMessage("Deposit failed: " + err.message);
     }
+    setLoading(false);
   };
 
   const acknowledgeReceipt = async () => {
+    if (!account) {
+      setMessage("Please Connect MetaMask Wallet");
+      return;
+    }
     try {
       const contract = await getContract();
+      const receiverAddress = await contract.getReceiver();
+
+      console.log("Receiver Address:", receiverAddress);
+      if (account.toLowerCase() !== receiverAddress.toString().toLowerCase()) {
+        setMessage("Only Receiver Can Acknowledge!");
+        return;
+      }
+
       const tx = await contract.acknowledgeReceipt();
-      setMessage("⏳ Sending acknowledgment...");
+      setMessage("Sending acknowledgment...");
       await tx.wait();
-      setMessage("✅ Acknowledgment successful!");
+      setMessage("Acknowledgment Successful!");
     } catch (err) {
       console.error(err);
-      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
-        setMessage("❌ Acknowledgment failed: User rejected action");
-      } else {
-        setMessage("❌ Acknowledgment failed: " + err.message);
-      }
+      setMessage("Acknowledgment Failed: " + err.message);
     }
   };
 
   const releaseFund = async () => {
+    setLoading(true);
     try {
       const contract = await getContract();
       const tx = await contract.releaseFund();
-      setMessage("⏳ Releasing funds...");
+      setMessage("Releasing funds...");
       await tx.wait();
-      setMessage("✅ Funds released successfully!");
+      setMessage("Funds Released Successfully!");
     } catch (err) {
       console.error(err);
-      if (err.code === "ACTION_REJECTED" || err.code === 4001) {
-        setMessage("❌ Release failed: User rejected action");
-      } else {
-        setMessage("❌ Release failed: " + err.message);
-      }
+      setMessage("Release Failed: " + err.message);
     }
+    setLoading(false);
   };
 
   return (
     <div className="container-escrow">
-      <h1 className="title-escrow">Escrow DApp</h1>
+      <h1>EtheX</h1>
       {account ? (
-        <p className="account-escrow"><strong>Connected Account:</strong> {account}</p>
+        <p><strong>Connected:</strong> {account}</p>
       ) : (
-        <button className="button-escrow" onClick={connectWallet}>Connect Wallet</button>
+        <button onClick={connectWallet} disabled={loading}>
+          Connect Wallet
+        </button>
       )}
 
       <div className="section-escrow">
-        <h2 className="subtitle-escrow">Deposit Funds</h2>
-        <input className="input-escrow" type="text" value={receiver} onChange={(e) => setReceiver(e.target.value)} placeholder="Receiver address" />
-        <input className="input-escrow" type="text" value={depositAmount} onChange={(e) => setDepositAmount(e.target.value)} placeholder="Amount in ETH" />
-        <button className="button-escrow" onClick={depositFunds}>Deposit</button>
+        <h2>Deposit Funds</h2>
+        <input
+          type="text"
+          placeholder="Receiver Address"
+          value={receiver}
+          onChange={(e) => setReceiver(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Amount in ETH"
+          value={depositAmount}
+          onChange={(e) => setDepositAmount(e.target.value)}
+        />
+        <button onClick={depositFunds} disabled={loading}>
+          Deposit
+        </button>
       </div>
 
       <div className="section-escrow">
-        <h2 className="subtitle-escrow">Acknowledge Receipt</h2>
-        <button className="button-escrow" onClick={acknowledgeReceipt}>Acknowledge</button>
+        <h2>Acknowledge Receipt</h2>
+        <button onClick={acknowledgeReceipt} disabled={loading}>
+          Acknowledge
+        </button>
       </div>
 
       <div className="section-escrow">
-        <h2 className="subtitle-escrow">Release Fund</h2>
-        <button className="button-escrow" onClick={releaseFund}>Release</button>
+        <h2>Release Funds</h2>
+        <button onClick={releaseFund} disabled={loading}>
+          Release
+        </button>
       </div>
 
-      {message && <p className="status-escrow"><strong>Status:</strong> {message}</p>}
+      {message && <p className="status-escrow">{message}</p>}
     </div>
   );
 }

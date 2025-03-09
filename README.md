@@ -7,3 +7,5 @@ meet predefined conditions. Our blockchain-based approach eliminates the need fo
 intermediaries, reducing costs and increasing transaction speed. Whether you are conducting business 
 deals, purchasing digital assets, or making high-value transactions, Ethex ensures that your funds remain 
 protected until every agreement is fulfilled.
+
+Etex is a blockchain based platform
